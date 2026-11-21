@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.utils import make_unique_column_names
+
 
 class DataLoadError(ValueError):
     """Error legible al cargar un archivo de inscripciones."""
@@ -44,7 +46,9 @@ class DataLoader:
         except Exception as exc:
             raise DataLoadError(f"No se pudo leer el archivo: {exc}") from exc
 
-        frame.columns = [str(column).strip() for column in frame.columns]
+        # Dos encabezados pueden quedar iguales al retirar espacios. PyArrow no
+        # admite nombres duplicados al mostrar el DataFrame en Streamlit.
+        frame.columns = make_unique_column_names(frame.columns)
         populated_rows = frame.fillna("").astype(str).apply(
             lambda column: column.str.strip()
         ).ne("").any(axis=1)

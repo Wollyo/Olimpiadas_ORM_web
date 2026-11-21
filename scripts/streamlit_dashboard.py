@@ -36,6 +36,7 @@ from src.results_merger import (  # noqa: E402
     merge_with_registrations,
     prepare_grade_file,
 )
+from src.utils import make_unique_column_names  # noqa: E402
 
 
 st.set_page_config(
@@ -122,6 +123,9 @@ def presentation_frame(frame: pd.DataFrame, *, audit: bool = False) -> pd.DataFr
             "errores": "Detalle del error",
         }
     )
+    # El nombre legible de una columna técnica puede coincidir con uno que ya
+    # venía en el archivo. Se conservan ambas con sufijos antes de usar PyArrow.
+    presented.columns = make_unique_column_names(presented.columns)
 
     if audit:
         preferred = ["Fila de origen", "Columnas con error", "Detalle del error"]

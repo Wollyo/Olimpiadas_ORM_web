@@ -19,6 +19,15 @@ class DataLoaderTests(unittest.TestCase):
 
         self.assertEqual(frame.loc[0, "Nombres"], "Ángela")
 
+    def test_makes_headers_unique_after_trimming_spaces(self):
+        content = "Colegio,Colegio \nUno,Dos\n".encode("utf-8")
+
+        frame = DataLoader.from_bytes("inscripciones.csv", content)
+
+        self.assertEqual(frame.columns.tolist(), ["Colegio", "Colegio (2)"])
+        self.assertEqual(frame.loc[0, "Colegio"], "Uno")
+        self.assertEqual(frame.loc[0, "Colegio (2)"], "Dos")
+
     def test_rejects_unknown_extension(self):
         with self.assertRaises(DataLoadError):
             DataLoader.from_bytes("inscripciones.txt", b"dato")
