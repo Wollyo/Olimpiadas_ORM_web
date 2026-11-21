@@ -237,8 +237,17 @@ class Cleaner:
         cleaned[CANONICAL_MUNICIPALITY] = municipalities
         cleaned["Grado"] = grades
         cleaned["Nivel"] = levels
-        cleaned["tipo_colegio"] = _series(cleaned, columns.sector).map(_school_type)
-        cleaned["genero_normalizado"] = _series(cleaned, columns.gender).map(_gender)
+        school_types = _series(cleaned, columns.sector).map(_school_type)
+        genders = _series(cleaned, columns.gender).map(_gender)
+
+        # Se conservan auxiliares internos para filtros y métricas, pero el valor
+        # limpio también reemplaza la columna original para las exportaciones.
+        cleaned["tipo_colegio"] = school_types
+        cleaned["genero_normalizado"] = genders
+        if columns.sector is not None:
+            cleaned[columns.sector] = school_types
+        if columns.gender is not None:
+            cleaned[columns.gender] = genders
         return cleaned, columns
 
 

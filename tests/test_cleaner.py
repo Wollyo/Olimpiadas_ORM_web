@@ -33,6 +33,8 @@ class CleanerTests(unittest.TestCase):
         self.assertEqual(cleaned.loc[0, "Municipio"], "Cali")
         self.assertEqual(cleaned.loc[0, "tipo_colegio"], "Público")
         self.assertEqual(cleaned.loc[0, "genero_normalizado"], "Mujer")
+        self.assertEqual(cleaned.loc[0, "Sector"], "Público")
+        self.assertEqual(cleaned.loc[0, "Genero"], "Mujer")
 
     def test_normalizes_numeric_identification_separators(self):
         frame = self.base_frame()

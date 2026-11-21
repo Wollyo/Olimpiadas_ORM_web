@@ -104,7 +104,12 @@ def csv_bytes(frame: pd.DataFrame) -> bytes:
 
 def presentation_frame(frame: pd.DataFrame, *, audit: bool = False) -> pd.DataFrame:
     """Quita columnas totalmente vacías y reemplaza nombres técnicos."""
-    presented = frame.copy()
+    # Estas columnas son necesarias para filtros y métricas, pero no forman
+    # parte del archivo que ve o descarga el usuario.
+    presented = frame.drop(
+        columns=["tipo_colegio", "genero_normalizado"],
+        errors="ignore",
+    ).copy()
     empty_columns = [
         column
         for column in presented.columns
@@ -117,8 +122,6 @@ def presentation_frame(frame: pd.DataFrame, *, audit: bool = False) -> pd.DataFr
     presented = presented.rename(
         columns={
             "_fila_origen": "Fila de origen",
-            "tipo_colegio": "Tipo de colegio normalizado",
-            "genero_normalizado": "Género normalizado",
             "columnas_con_error": "Columnas con error",
             "errores": "Detalle del error",
         }
@@ -355,8 +358,8 @@ def render_registration_section() -> None:
             st.markdown(
                 """
                 - **Fila de origen:** número de la fila en el archivo que subiste.
-                - **Tipo de colegio normalizado:** unifica las distintas formas de escribir público o privado.
-                - **Género normalizado:** unifica valores como M, masculino, F o femenino.
+                - **Tipo de colegio y género:** sus valores se corrigen directamente
+                  en las columnas originales, sin crear columnas adicionales.
                 - **Nivel:** clasificación uniforme usada por los filtros y gráficos.
                 """
             )
