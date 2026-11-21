@@ -7,6 +7,7 @@ import sys
 from io import BytesIO
 from pathlib import Path
 
+import altair as alt
 import pandas as pd
 import streamlit as st
 from PIL import Image
@@ -14,7 +15,6 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 LOGO_PATH = ROOT / "assets" / "univalle_logo.png"
 STYLES_PATH = ROOT / "assets" / "styles.css"
-UNIVALLE_RED = "#DF0009"
 with Image.open(LOGO_PATH) as logo_file:
     PAGE_ICON = logo_file.copy()
 if str(ROOT) not in sys.path:
@@ -203,30 +203,62 @@ def render_metrics(frame: pd.DataFrame, problem_count: int) -> None:
     metrics[5].metric("Mujeres", int(frame["genero_normalizado"].eq("Mujer").sum()))
 
 
+def render_red_bar_chart(values: pd.Series) -> None:
+    """Renderiza barras con una escala vino-rojo sobria sobre el tema oscuro."""
+    chart_data = values.rename_axis("categoria").reset_index(name="cantidad")
+    chart = (
+        alt.Chart(chart_data)
+        .mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4)
+        .encode(
+            x=alt.X(
+                "categoria:N",
+                sort=None,
+                title=None,
+                axis=alt.Axis(labelAngle=-90, labelLimit=115),
+            ),
+            y=alt.Y("cantidad:Q", title=None),
+            color=alt.Color(
+                "cantidad:Q",
+                scale=alt.Scale(range=["#64171C", "#98212A", "#C92A34"]),
+                legend=None,
+            ),
+            tooltip=[
+                alt.Tooltip("categoria:N", title="Categoría"),
+                alt.Tooltip("cantidad:Q", title="Registros", format=","),
+            ],
+        )
+        .properties(height=270)
+        .configure_axis(
+            domainColor="#3A3B42",
+            gridColor="#292A30",
+            labelColor="#E2E2E6",
+            tickColor="#3A3B42",
+            titleColor="#E2E2E6",
+        )
+        .configure_view(strokeOpacity=0)
+    )
+    st.altair_chart(chart, use_container_width=True)
+
+
 def render_charts(frame: pd.DataFrame) -> None:
     st.subheader("Distribuciones")
     level_col, municipality_col, sector_col = st.columns(3)
     with level_col:
         st.caption("Por nivel")
-        st.bar_chart(
-            frame["Nivel"].replace("", "Sin dato").value_counts(),
-            color=UNIVALLE_RED,
+        render_red_bar_chart(
+            frame["Nivel"].replace("", "Sin dato").value_counts()
         )
     with municipality_col:
         st.caption("Principales municipios")
-        st.bar_chart(
+        render_red_bar_chart(
             frame[CANONICAL_MUNICIPALITY]
             .replace("", "Sin dato")
             .value_counts()
-            .head(15),
-            color=UNIVALLE_RED,
+            .head(15)
         )
     with sector_col:
         st.caption("Por tipo de colegio")
-        st.bar_chart(
-            frame["tipo_colegio"].value_counts(),
-            color=UNIVALLE_RED,
-        )
+        render_red_bar_chart(frame["tipo_colegio"].value_counts())
 
 
 def render_registration_section() -> None:
