@@ -14,6 +14,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 LOGO_PATH = ROOT / "assets" / "univalle_logo.png"
 STYLES_PATH = ROOT / "assets" / "styles.css"
+UNIVALLE_RED = "#DF0009"
 with Image.open(LOGO_PATH) as logo_file:
     PAGE_ICON = logo_file.copy()
 if str(ROOT) not in sys.path:
@@ -207,18 +208,25 @@ def render_charts(frame: pd.DataFrame) -> None:
     level_col, municipality_col, sector_col = st.columns(3)
     with level_col:
         st.caption("Por nivel")
-        st.bar_chart(frame["Nivel"].replace("", "Sin dato").value_counts())
+        st.bar_chart(
+            frame["Nivel"].replace("", "Sin dato").value_counts(),
+            color=UNIVALLE_RED,
+        )
     with municipality_col:
         st.caption("Principales municipios")
         st.bar_chart(
             frame[CANONICAL_MUNICIPALITY]
             .replace("", "Sin dato")
             .value_counts()
-            .head(15)
+            .head(15),
+            color=UNIVALLE_RED,
         )
     with sector_col:
         st.caption("Por tipo de colegio")
-        st.bar_chart(frame["tipo_colegio"].value_counts())
+        st.bar_chart(
+            frame["tipo_colegio"].value_counts(),
+            color=UNIVALLE_RED,
+        )
 
 
 def render_registration_section() -> None:
