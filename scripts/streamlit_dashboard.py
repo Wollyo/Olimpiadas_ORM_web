@@ -15,6 +15,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 LOGO_PATH = ROOT / "assets" / "univalle_logo.png"
 STYLES_PATH = ROOT / "assets" / "styles.css"
+RESULT_LEVELS = ("Junior", "Básico", "Medio", "Avanzado")
 with Image.open(LOGO_PATH) as logo_file:
     PAGE_ICON = logo_file.copy()
 if str(ROOT) not in sys.path:
@@ -94,6 +95,17 @@ def excel_bytes(frame: pd.DataFrame, sheet_name: str) -> bytes:
     buffer = BytesIO()
     with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
         frame.to_excel(writer, index=False, sheet_name=sheet_name[:31])
+    return buffer.getvalue()
+
+
+def results_excel_bytes(frame: pd.DataFrame) -> bytes:
+    """Crea un consolidado con una hoja general y una por cada nivel."""
+    buffer = BytesIO()
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+        frame.to_excel(writer, index=False, sheet_name="General")
+        for level in RESULT_LEVELS:
+            level_frame = frame[frame["Nivel"].eq(level)]
+            level_frame.to_excel(writer, index=False, sheet_name=level)
     return buffer.getvalue()
 
 
@@ -471,7 +483,7 @@ def render_results_section() -> None:
         "repetidos. La aplicación los separa y continúa con las calificaciones válidas."
     )
 
-    levels = ["Junior", "Básico", "Medio", "Avanzado"]
+    levels = list(RESULT_LEVELS)
     upload_columns = st.columns(2)
     uploaded_grades = {}
     for index, level in enumerate(levels):
@@ -689,7 +701,7 @@ def render_results_section() -> None:
     )
     full_excel.download_button(
         "Excel completo",
-        data=excel_bytes(full_output, "Consolidado"),
+        data=results_excel_bytes(full_output),
         file_name=f"consolidado_{file_tag}_completo.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         use_container_width=True,
