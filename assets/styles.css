@@ -1,12 +1,12 @@
 :root {
   --uv-red: #df0009;
   --uv-red-dark: #a90008;
-  --uv-red-soft: #fff0f1;
-  --uv-ink: #17171a;
-  --uv-muted: #66666f;
-  --uv-canvas: #f5f5f2;
-  --uv-card: #ffffff;
-  --uv-line: #e7e4e1;
+  --uv-red-soft: #2b1519;
+  --uv-ink: #f5f5f7;
+  --uv-muted: #aaaab3;
+  --uv-canvas: #0e0f12;
+  --uv-card: #191a1f;
+  --uv-line: #303137;
   --uv-radius: 18px;
   --uv-shadow: 0 14px 40px rgba(22, 22, 25, 0.08);
 }
@@ -18,14 +18,14 @@ html, body, [class*="css"] {
 .stApp {
   color: var(--uv-ink);
   background:
-    radial-gradient(circle at 88% 6%, rgba(223, 0, 9, 0.07), transparent 24rem),
-    linear-gradient(180deg, #fafaf8 0%, var(--uv-canvas) 38%, #f8f8f6 100%);
+    radial-gradient(circle at 88% 6%, rgba(223, 0, 9, 0.12), transparent 24rem),
+    linear-gradient(180deg, #111216 0%, var(--uv-canvas) 38%, #121318 100%);
 }
 
 [data-testid="stHeader"] {
-  background: rgba(250, 250, 248, 0.82);
+  background: rgba(14, 15, 18, 0.82);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(23, 23, 26, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 [data-testid="stAppViewContainer"] > .main .block-container {
@@ -154,11 +154,11 @@ html, body, [class*="css"] {
   gap: .7rem;
   margin: -.25rem 0 1rem;
   padding: .72rem .95rem;
-  color: #4c4c54;
+  color: var(--uv-muted);
   font-size: .86rem;
   border: 1px solid var(--uv-line);
   border-radius: 13px;
-  background: rgba(255, 255, 255, .72);
+  background: rgba(25, 26, 31, .82);
 }
 
 .uv-privacy strong { color: var(--uv-ink); }
@@ -182,6 +182,31 @@ h2 { margin-top: 1.2rem !important; }
   border-color: rgba(255, 255, 255, .14) !important;
   background: #242429 !important;
 }
+[data-testid="stSidebar"] [data-baseweb="select"] input,
+[data-testid="stSidebar"] [data-baseweb="select"] span {
+  color: #f7f7f7 !important;
+  -webkit-text-fill-color: #f7f7f7 !important;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] svg {
+  fill: #d7d7dc !important;
+}
+
+/* BaseWeb monta el menú fuera de la barra lateral; por eso necesita tema propio. */
+[data-baseweb="popover"] [role="listbox"] {
+  color: #f7f7f7 !important;
+  border: 1px solid var(--uv-line) !important;
+  background: #1b1c21 !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .42) !important;
+}
+[data-baseweb="popover"] [role="option"] {
+  color: #f7f7f7 !important;
+  background: #1b1c21 !important;
+}
+[data-baseweb="popover"] [role="option"]:hover,
+[data-baseweb="popover"] [role="option"][aria-selected="true"] {
+  color: #fff !important;
+  background: #35363d !important;
+}
 [data-testid="stSidebar"] [data-testid="stMetric"] {
   color: #fff;
   border-color: rgba(255, 255, 255, .1);
@@ -195,8 +220,8 @@ h2 { margin-top: 1.2rem !important; }
   padding: .3rem;
   border: 1px solid var(--uv-line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, .88);
-  box-shadow: 0 8px 24px rgba(20, 20, 22, .06);
+  background: rgba(25, 26, 31, .9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
 }
 
 [data-testid="stSegmentedControl"] button {
@@ -211,8 +236,8 @@ h2 { margin-top: 1.2rem !important; }
   padding: 1rem 1.05rem;
   border: 1px solid var(--uv-line);
   border-radius: var(--uv-radius);
-  background: linear-gradient(155deg, #fff 45%, #faf8f7 100%);
-  box-shadow: 0 8px 26px rgba(25, 20, 21, .055);
+  background: linear-gradient(155deg, #1b1c21 45%, #17181d 100%);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, .2);
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   animation: uv-rise 450ms cubic-bezier(.2, .8, .2, 1) both;
 }
@@ -238,14 +263,14 @@ h2 { margin-top: 1.2rem !important; }
   padding: .45rem;
   border: 1px solid var(--uv-line);
   border-radius: var(--uv-radius);
-  background: rgba(255, 255, 255, .82);
-  box-shadow: 0 8px 24px rgba(20, 20, 22, .04);
+  background: rgba(25, 26, 31, .88);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
 }
 
 [data-testid="stFileUploaderDropzone"] {
   border: 1.5px dashed rgba(223, 0, 9, .42) !important;
   border-radius: 14px !important;
-  background: linear-gradient(135deg, #fff 0%, var(--uv-red-soft) 100%) !important;
+  background: linear-gradient(135deg, #1b1c21 0%, var(--uv-red-soft) 100%) !important;
   transition: border-color 180ms ease, transform 180ms ease;
 }
 
@@ -288,15 +313,15 @@ h2 { margin-top: 1.2rem !important; }
   overflow: hidden;
   border: 1px solid var(--uv-line);
   border-radius: var(--uv-radius);
-  background: #fff;
-  box-shadow: 0 10px 28px rgba(20, 20, 22, .055);
+  background: var(--uv-card);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .2);
 }
 
 [data-testid="stExpander"] {
   overflow: hidden;
   border: 1px solid var(--uv-line) !important;
   border-radius: 14px !important;
-  background: rgba(255, 255, 255, .8);
+  background: rgba(25, 26, 31, .85);
 }
 
 hr {
