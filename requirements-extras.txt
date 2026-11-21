@@ -1,0 +1,3 @@
+# Dependencias opcionales para desarrollo y control de calidad
+pytest>=8,<10
+ruff>=0.8,<1

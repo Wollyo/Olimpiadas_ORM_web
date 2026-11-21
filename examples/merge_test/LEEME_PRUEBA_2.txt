@@ -1,0 +1,8 @@
+PRUEBA DE ACUMULACIÓN SIN SOBRESCRIBIR
+
+Sube 06_resultado_prueba_1_para_cargar.xlsx como consolidado general.
+Sube los archivos 07 a 10 en su nivel correspondiente.
+
+El resultado debe conservar Prueba 1, añadir Prueba 2 y recalcular Nota_Total.
+Si vuelves a subir archivos de Prueba 1, la aplicación debe bloquear el proceso
+para no sobrescribir las notas existentes.

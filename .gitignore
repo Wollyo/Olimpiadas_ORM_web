@@ -1,0 +1,25 @@
+# Entornos y cachés de Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Datos reales y archivos generados (pueden contener información personal)
+Data/
+data/
+*.xlsx
+*.xls
+tmp_*.csv
+dashboard_filtrado.csv
+dashboard_filtrado.xlsx
+problems.csv
+problems.xlsx
+
+# Archivos locales de herramientas y sistema
+.streamlit/secrets.toml
+.env
+.DS_Store
+Thumbs.db
+

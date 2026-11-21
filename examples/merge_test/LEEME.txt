@@ -1,0 +1,15 @@
+PRUEBA DEL CRUCE DE CALIFICACIONES
+
+Sube 01_consolidado_general_limpio.xlsx como consolidado general.
+Sube los archivos 02 a 05 en su nivel correspondiente.
+
+Resultado esperado:
+- 12 inscripciones posibles.
+- 8 estudiantes presentaron la prueba.
+- 4 estudiantes no presentaron y deben recibir nota 0.
+- 1 calificación de Junior no existe en el consolidado y debe aparecer como advertencia.
+- 1 intento con ID -31 representa un monitor y debe excluirse con advertencia.
+- Las filas 'Promedio general' deben ignorarse automáticamente.
+
+00_paquete_prueba_cruce.xlsx sirve para revisar todos los datos en un solo libro,
+pero la aplicación recibe los cinco archivos separados incluidos en este paquete.
