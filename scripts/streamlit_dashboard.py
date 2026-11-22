@@ -79,6 +79,18 @@ def render_brand_header() -> None:
     )
 
 
+def render_footer() -> None:
+    st.markdown(
+        """
+        <footer class="uv-footer" aria-label="Crédito del creador">
+          <span>Creado por</span>
+          <strong>Wolyo</strong>
+        </footer>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def load_uploaded_file(file_name: str, content: bytes) -> pd.DataFrame:
     return DataLoader.from_bytes(file_name, content)
 
@@ -746,6 +758,7 @@ def main() -> None:
         render_results_section()
     else:
         render_registration_section()
+    render_footer()
 
 
 if __name__ == "__main__":
